@@ -2,6 +2,8 @@
 name = "streak"
 version = "0.0.1"
 authors = ["Lancelot Carlson <lcarlson@healpay.com>"]
+description = "Bindings for the Streak API."
+license = "MIT"
 
 [dependencies]
 reqwest = "0.8"
