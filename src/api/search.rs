@@ -79,6 +79,9 @@ pub struct Contact {
     pub title: String,
 }
 
+/// Searching for boxes, contacts, and organizations by query
+///
+/// Any search by query will return `Vec<Organization>`, `Vec<Box>` and `Vec<Contact>`
 /// ```rust
 /// # extern crate streak;
 /// # include!("../doctest_setup.rs");
@@ -106,6 +109,9 @@ pub fn query(query: &str) -> SearchParamsBuilder {
     }
 }
 
+/// Searching for a box by name
+///
+/// `Box` search is an exact match.
 /// ```
 /// # extern crate streak;
 /// # include!("../doctest_setup.rs");
