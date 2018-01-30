@@ -8,7 +8,7 @@ extern crate serde_url_params;
 #[macro_use]
 extern crate log;
 
-mod error;
+pub mod error;
 pub use error::StreakError;
 
 mod client;
