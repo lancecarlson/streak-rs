@@ -1,0 +1,6 @@
+[package]
+name = "streak"
+version = "0.1.0"
+authors = ["Lancelot Carlson <lcarlson@healpay.com>"]
+
+[dependencies]
