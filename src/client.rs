@@ -8,6 +8,9 @@ use serde;
 use serde_json::{self, Value};
 use serde_url_params;
 
+use std::env;
+use dotenv::dotenv;
+
 use error::StreakError;
 
 /// The Streak API Rust client.
@@ -37,6 +40,22 @@ pub struct Status {
 
 impl Client {
     /// Create a new client to the Streak service.
+    ///
+    /// Example:
+    ///
+    /// ```rust
+    /// extern crate streak;
+    ///
+    /// use streak::Client;
+    /// use std::env;
+    ///
+    /// fn main() {
+    /// #   Client::example();
+    ///
+    ///     let api_key = env::var("STREAK_API_KEY").expect("to have STREAK_API_KEY set");
+    ///     let client = Client::new(&api_key);
+    /// }
+    /// ```
     pub fn new(api_key: &str) -> Client {
         Client {
             retry_count: 3,
@@ -45,6 +64,13 @@ impl Client {
             api_key: api_key.into(),
             reqwest: reqwest::Client::new(),
         }
+    }
+
+    #[doc(hidden)]
+    pub fn example() -> Client {
+        dotenv().ok();
+        let api_key: String = env::var("STREAK_API_KEY").expect("to have STREAK_API_KEY set");
+        Client::new(&api_key)
     }
 
     /// Send a `get` request to the Streak service. This is intended to be used

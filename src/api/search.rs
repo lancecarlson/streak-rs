@@ -1,9 +1,9 @@
+//! The Search endpoint allows you to search the contents on boxes. The search functionality returns a relevance sorted list of boxes.
+
 use serde_json;
 
 use client::Client;
 use error::StreakError;
-
-// The Search endpoint allows you to search the contents on boxes. The search functionality returns a relevance sorted list of boxes.
 
 #[derive(Default, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -32,7 +32,7 @@ impl SearchParamsBuilder {
     }
 
     pub fn send(self, c: &Client) -> Result<SearchResponse, StreakError> {
-        let res = c.get("/search", self)?;
+        let res = c.get("search", self)?;
         let s_res = serde_json::from_value(res.clone())?;
         Ok(s_res)
     }
@@ -43,14 +43,14 @@ impl SearchParamsBuilder {
 pub struct SearchResponse {
     pub results: SearchResults,
     pub page: i32,
-    pub query: String,
+    pub query: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct SearchResults {
-    pub orgs: Vec<Organization>,
+    pub orgs: Option<Vec<Organization>>,
     pub boxes: Vec<Box>,
-    pub contacts: Vec<Contact>,
+    pub contacts: Option<Vec<Contact>>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -66,7 +66,7 @@ pub struct Organization {
 pub struct Box {
     pub box_key: String,
     pub name: String,
-    pub last_updated_timestamp: i32, // TODO: Convert to DateTime
+    pub last_updated_timestamp: i64, // TODO: Convert to DateTime
     pub stage_key: String,
     pub pipeline_key: String,
 }
@@ -75,32 +75,30 @@ pub struct Box {
 #[serde(rename_all = "camelCase")]
 pub struct Contact {
     pub key: String,
-    pub email_addresses: Vec<String>,
-    pub title: String,
+    pub email_addresses: Option<Vec<String>>,
+    pub title: Option<String>,
 }
 
 /// Searching for boxes, contacts, and organizations by query
 ///
 /// Any search by query will return `Vec<Organization>`, `Vec<Box>` and `Vec<Contact>`
+///
 /// ```rust
-/// # extern crate streak;
-/// # include!("../doctest_setup.rs");
-/// #
+/// extern crate streak;
+///
 /// use streak::error::StreakError;
 /// use streak::api::search::{self, SearchResponse};
 ///
 /// fn main() {
-///     run_test();
-/// }
-///
-/// fn run_test() -> Result<SearchResponse, StreakError> {
-///     let c = setup_client();
-///     let res = search::query("test").send(&c)?;
-///     assert!(res.page > 0);
+///     let res = run_query().expect("to get query results");
+///     println!("{:#?}", res);
 ///     assert!(res.results.boxes.len() > 0);
-///     Ok(res)
 /// }
 ///
+/// fn run_query() -> Result<SearchResponse, StreakError> {
+///     let c = streak::Client::example();
+///     search::query("test").send(&c)
+/// }
 /// ```
 pub fn query(query: &str) -> SearchParamsBuilder {
     SearchParamsBuilder {
@@ -112,23 +110,22 @@ pub fn query(query: &str) -> SearchParamsBuilder {
 /// Searching for a box by name
 ///
 /// `Box` search is an exact match.
-/// ```
-/// # extern crate streak;
-/// # include!("../doctest_setup.rs");
-/// #
+///
+/// ```rust
+/// extern crate streak;
+///
 /// use streak::error::StreakError;
 /// use streak::api::search::{self, SearchResponse};
 ///
 /// fn main() {
-///     run_test();
+///     let res = run_name().expect("to run search by name");
+///     println!("{:#?}", res);
+///     assert!(res.results.boxes.len() > 0);
 /// }
 ///
-/// fn run_test() -> Result<SearchResponse, StreakError> {
-///     let c = setup_client();
-///     let res = search::name("name of box").send(&c)?;
-///     assert!(res.page > 0);
-///     assert!(res.results.orgs.len() > 0);
-///     Ok(res)
+/// fn run_name() -> Result<SearchResponse, StreakError> {
+///     let c = streak::Client::example();
+///     search::name("AWS").send(&c)
 /// }
 /// ```
 pub fn name(name: &str) -> SearchParamsBuilder {
