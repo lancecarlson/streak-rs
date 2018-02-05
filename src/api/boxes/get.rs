@@ -1,11 +1,9 @@
 //! Box actions
 
 use serde_json;
-use chrono::{DateTime, Utc};
 
-use error::HelpScoutError;
+use error::StreakError;
 use client::Client;
-use envelope::{Collection, Item};
 
 pub struct Box {
     pipeline_key: String,
