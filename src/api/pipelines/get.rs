@@ -1,16 +1,15 @@
 //! Pipeline actions
 
-
 use serde_json;
 
 use error::StreakError;
 use client::Client;
 use super::Pipeline;
 
-/// List all Pipelines
+/// Get a specific Pipeline
 ///
 /// API docs:
-/// <https://www.streak.com/api/#pipeline>
+/// <https://www.streak.com/api/#specificpipeline>
 ///
 /// ```rust
 /// extern crate streak;
@@ -20,13 +19,13 @@ use super::Pipeline;
 /// fn main() {
 ///     let client = streak::Client::example();
 ///     let pipelines = streak::api::pipelines::list(&client).expect("list all pipelines");
-///     println!("{:?}", pipelines);
-///     assert!(pipelines.len() > 0);
-///     assert!(pipelines[0].name != "");
+///     let pipeline = streak::api::pipelines::get(&client, &pipelines[0].pipeline_key).expect("get a pipeline");
+///     println!("pipeline {:?}", pipeline);
+///     assert!(pipeline.fields.len() > 0);
 /// }
 /// ```
-pub fn list(client: &Client) -> Result<Vec<Pipeline>, StreakError> {
-    let res = client.get("pipelines", ())?;
+pub fn get(client: &Client, pipeline_key: &str) -> Result<Pipeline, StreakError> {
+    let res = client.get(&format!("pipelines/{}", pipeline_key), ())?;
     let pipeline = serde_json::from_value(res.clone())?;
     Ok(pipeline)
 }
