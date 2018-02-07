@@ -17,6 +17,16 @@ pub enum FieldValue {
     Array(Vec<Value>),
 }
 
+impl FieldValue {
+    pub fn as_string(self) -> Option<String> {
+        if let FieldValue::String(s) = self {
+            Some(s)
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Box {
