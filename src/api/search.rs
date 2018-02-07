@@ -38,7 +38,7 @@ impl SearchParamsBuilder {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SearchResponse {
     pub results: SearchResults,
@@ -46,14 +46,14 @@ pub struct SearchResponse {
     pub query: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SearchResults {
     pub orgs: Option<Vec<OrganizationHandle>>,
     pub boxes: Vec<BoxHandle>,
     pub contacts: Option<Vec<ContactHandle>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OrganizationHandle {
     pub name: String,
     pub key: String,
@@ -61,7 +61,7 @@ pub struct OrganizationHandle {
     pub domains: Vec<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BoxHandle {
     pub box_key: String,
@@ -71,7 +71,7 @@ pub struct BoxHandle {
     pub pipeline_key: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ContactHandle {
     pub key: String,

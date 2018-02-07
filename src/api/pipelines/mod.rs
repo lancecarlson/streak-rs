@@ -6,7 +6,7 @@ pub use self::get::get;
 
 use std::collections::HashMap;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Pipeline {
     pub key: String,
@@ -32,7 +32,7 @@ pub struct Pipeline {
     pub sharing_restricted_to_team: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Field {
     pub name: String,
@@ -43,20 +43,20 @@ pub struct Field {
     pub dropdown_settings: Option<FieldItems>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FieldItems {
     pub items: Vec<FieldItem>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FieldItem {
     pub key: String,
     pub name: String,
 }
 
-#[derive(Debug, Deserialize, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, Hash, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Stage {
     pub name: String,
@@ -65,14 +65,14 @@ pub struct Stage {
     pub box_count: i32,
 }
 
-#[derive(Debug, Deserialize, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, Hash, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Color {
     pub foreground_color: String,
     pub background_color: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AclEntry {
     pub full_name: String,

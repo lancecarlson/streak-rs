@@ -8,7 +8,7 @@ use serde_json::Value;
 
 use std::collections::HashMap;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FieldValue {
     Integer(u64),
@@ -17,7 +17,7 @@ pub enum FieldValue {
     Array(Vec<Value>),
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Box {
     pub last_saved_timestamp: u64,
@@ -65,7 +65,7 @@ pub struct Box {
     pub freshness: f64,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
     display_name: String,
