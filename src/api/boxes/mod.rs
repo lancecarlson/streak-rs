@@ -18,9 +18,9 @@ pub enum FieldValue {
 }
 
 impl FieldValue {
-    pub fn as_string(self) -> Option<String> {
-        if let FieldValue::String(s) = self {
-            Some(s)
+    pub fn as_string(&self) -> Option<String> {
+        if let &FieldValue::String(ref s) = self {
+            Some(s.clone())
         } else {
             None
         }
