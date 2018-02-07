@@ -1,6 +1,5 @@
 //! Pipeline actions
 
-
 use serde_json;
 
 use error::StreakError;
