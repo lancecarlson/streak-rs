@@ -4,28 +4,9 @@ pub use self::list::list;
 pub mod get;
 pub use self::get::get;
 
-use serde_json::Value;
-
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FieldValue {
-    Integer(u64),
-    Bool(bool),
-    String(String),
-    Array(Vec<Value>),
-}
-
-impl FieldValue {
-    pub fn as_string(&self) -> Option<String> {
-        if let &FieldValue::String(ref s) = self {
-            Some(s.clone())
-        } else {
-            None
-        }
-    }
-}
+use serde_json::Value;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -73,6 +54,26 @@ pub struct Box {
     pub box_key: String,
     pub key: String,
     pub freshness: f64,
+    pub contacts: Option<Vec<ContactHandle>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FieldValue {
+    Integer(u64),
+    Bool(bool),
+    String(String),
+    Array(Vec<Value>),
+}
+
+impl FieldValue {
+    pub fn as_string(&self) -> Option<String> {
+        if let &FieldValue::String(ref s) = self {
+            Some(s.clone())
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -83,4 +84,11 @@ pub struct User {
     email: String,
     image: String,
     user_key: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContactHandle {
+    pub is_starred: bool,
+    pub key: String,
 }

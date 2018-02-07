@@ -60,7 +60,7 @@ impl Client {
         Client {
             retry_count: 3,
             retry_wait: 250,
-            api_url: "https://www.streak.com/api/v1".into(),
+            api_url: "https://www.streak.com/api".into(),
             api_key: api_key.into(),
             reqwest: reqwest::Client::new(),
         }
@@ -78,18 +78,28 @@ impl Client {
     pub fn get<T>(&self, path: &str, url_params: T) -> Result<Value, StreakError>
         where T: serde::Serialize
     {
-        self.request(Method::Get, self.url(path, url_params)?, None)
+        self.request(Method::Get, self.url("v1", path, url_params)?, None)
     }
 
-    fn url<T>(&self, path: &str, params: T) -> Result<Url, StreakError>
+    /// Send a `get` request to the Streak service. This is intended to be used
+    /// by the library and not the user.
+    pub fn get_v2<T>(&self, path: &str, url_params: T) -> Result<Value, StreakError>
         where T: serde::Serialize
     {
-        let mut base = format!("{api_url}/{path}",
+        self.request(Method::Get, self.url("v2", path, url_params)?, None)
+    }
+
+    fn url<T>(&self, version: &str, path: &str, params: T) -> Result<Url, StreakError>
+        where T: serde::Serialize
+    {
+        let mut base = format!("{api_url}/{version}/{path}",
                            api_url = self.api_url,
+                           version = version,
                            path = path);
 
         let encoded = serde_url_params::to_string(&params)?;
         base = format!("{}?{}", base, encoded);
+
         Ok(Url::parse(&base)?)
     }
 
