@@ -7,7 +7,7 @@ pub struct Contact {
     pub team_key: String,
     pub given_name: String,
     pub family_name: String,
-    pub title: String,
+    pub title: Option<String>,
     pub email_addresses: Vec<String>,
     pub phone_numbers: Vec<String>,
     pub last_saved_user_key: String,
