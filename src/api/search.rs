@@ -48,13 +48,13 @@ pub struct SearchResponse {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SearchResults {
-    pub orgs: Option<Vec<Organization>>,
-    pub boxes: Vec<Box>,
-    pub contacts: Option<Vec<Contact>>,
+    pub orgs: Option<Vec<OrganizationHandle>>,
+    pub boxes: Vec<BoxHandle>,
+    pub contacts: Option<Vec<ContactHandle>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Organization {
+pub struct OrganizationHandle {
     pub name: String,
     pub key: String,
     pub industry: String,
@@ -63,7 +63,7 @@ pub struct Organization {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Box {
+pub struct BoxHandle {
     pub box_key: String,
     pub name: String,
     pub last_updated_timestamp: i64, // TODO: Convert to DateTime
@@ -73,7 +73,7 @@ pub struct Box {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Contact {
+pub struct ContactHandle {
     pub key: String,
     pub email_addresses: Option<Vec<String>>,
     pub title: Option<String>,
@@ -81,7 +81,7 @@ pub struct Contact {
 
 /// Searching for boxes, contacts, and organizations by query
 ///
-/// Any search by query will return `Vec<Organization>`, `Vec<Box>` and `Vec<Contact>`
+/// Any search by query will return `Vec<OrganizationHandle>`, `Vec<BoxHandle>` and `Vec<ContactHandle>`
 ///
 /// ```rust
 /// extern crate streak;
